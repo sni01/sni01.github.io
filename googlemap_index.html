@@ -12,8 +12,8 @@
 <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script>
 	function initialize() {
-		var myLat;
-		var myLng;
+		var myLat = 0;
+		var myLng = 0;
 		var me;
 		
 		function getMyLocation()
@@ -28,7 +28,6 @@
 					alert("Geolocation is not supported by your web browser.  What a shame!");
 				}
 			}
-			alert();
 		getMyLocation(myLat+" "+myLng);
 		me = new google.maps.LatLng(41.1, -71.1);
 		alert(me);
