@@ -15,8 +15,17 @@
 		var myLat = 0;
 		var myLng = 0;
 		var me;
-		
-		function getMyLocation()
+		getMyLocation();
+		me = new google.maps.LatLng(myLat, myLng);
+		alert(me);
+		myOptions = {
+		             zoom:13,
+					 center:me,
+					 mapTypeId:google.maps.MapTypeId.ROADMAP
+					 };
+		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	}
+	function getMyLocation()
 			{
 				if (navigator.geolocation) { 
 					navigator.geolocation.getCurrentPosition(function(position) {
@@ -29,16 +38,6 @@
 					alert("Geolocation is not supported by your web browser.  What a shame!");
 				}
 			}
-		getMyLocation();
-		me = new google.maps.LatLng(myLat, myLng);
-		alert(me);
-		myOptions = {
-		             zoom:13,
-					 center:me,
-					 mapTypeId:google.maps.MapTypeId.ROADMAP
-					 };
-		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	}
 </script>
 
 </head>
