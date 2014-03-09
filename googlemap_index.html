@@ -31,6 +31,10 @@
 					  mapTypeId:google.maps.MapTypeId.ROADMAP
 				};
 		        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		        var marker = new google.maps.Marker({
+		        	position: me,
+		        	title: "hello, I am here!"
+		        });
 			});
 		}
 		else {
