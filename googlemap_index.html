@@ -17,7 +17,7 @@
 	function initialize() {
 		getMyLocation();
 		me = new google.maps.LatLng(myLat, myLng);
-		alert(me);
+		alert(myLat);
 		myOptions = {
 		             zoom:13,
 					 center:me,
@@ -31,7 +31,6 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
-						alert(myLat);
 					});
 				}
 				else {
