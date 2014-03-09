@@ -28,9 +28,7 @@
 					alert("Geolocation is not supported by your web browser.  What a shame!");
 				}
 			}
-		getMyLocation(myLat+" "+myLng);
-		me = new google.maps.LatLng(41.1, -71.1);
-		alert(me);
+		me = new google.maps.LatLng(myLat, myLng);
 		myOptions = {
 		             zoom:13,
 					 center:me,
