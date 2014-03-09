@@ -19,8 +19,7 @@
 		
 		function getMyLocation()
 			{
-				if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
-				    alert("test");
+				if (navigator.geolocation) { 
 					navigator.geolocation.getCurrentPosition(function(position) {
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
@@ -32,6 +31,7 @@
 				}
 			}
 		getMyLocation();
+		alert(me.toString());
 		myOptions = {
 		             zoom:13,
 					 center:me,
