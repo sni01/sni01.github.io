@@ -29,6 +29,7 @@
 			{
 				if (navigator.geolocation) { 
 					navigator.geolocation.getCurrentPosition(function(position) {
+						alert("test");
 						myLat = position.coords.latitude;
 						myLng = position.coords.longitude;
 					});
