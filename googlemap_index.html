@@ -68,7 +68,7 @@
 	}
 
 	function setInfoWindow(infoWindows, markers, key){
-		return infoWindows[key].open(map, markers[key]);
+		return function(){infoWindows[key].open(map, markers[key]);}
 	}
 
 
