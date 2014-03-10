@@ -23,6 +23,7 @@
 		if (navigator.geolocation) { 
 			navigator.geolocation.getCurrentPosition(function(position) {
 				markers = [];
+				infoWindows = [];
 				myLat = position.coords.latitude;
 				myLng = position.coords.longitude;
 				me = new google.maps.LatLng(myLat, myLng);
@@ -54,12 +55,11 @@
 		            markers.push(marker);
 				}
 				//set click function for infowindows
-		        alert(markers);
 		        for(key in markers){
+		        	infoWindows[key] = new google.maps.InfoWindow();
+					infoWindows[key].setContent(markers[key].title);
 		        	google.maps.event.addListener(markers[key],'click',function(){
-		        		var infoWindow = new google.maps.InfoWindow();
-					    infoWindow.setContent(markers[key].title);
-					    infoWindow.open(map, markers[key]);
+		                infoWindows[key].open(map, markers[key]);
 		        	})
 		        }
 			});
