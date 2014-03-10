@@ -54,11 +54,10 @@
 		            markers.push(marker);
 				}
 				//set click function for infowindows
-
-		        var infoWindow = new google.maps.InfoWindow();
 		        alert(markers);
 		        for(key in markers){
 		        	google.maps.event.addListener(markers[key],'click',function(){
+		        		var infoWindow = new google.maps.InfoWindow();
 		        		infoWindow.close();
 					    infoWindow.setContent(markers[key].title);
 					    infoWindow.open(map, markers[key]);
