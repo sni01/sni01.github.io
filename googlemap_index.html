@@ -58,7 +58,7 @@
 		        var infowindow = new google.maps.InfoWindow();
 		        alert(markers);
 		        for(key in markers){
-		        	google.maps.even.addListener(markers[key],'click',function(){
+		        	google.maps.event.addListener(markers[key],'click',function(){
 		        		infoWindow.close();
 					    infowindow.setContent(markers[key].title);
 					    infowindow.open(map, markers[key]);
