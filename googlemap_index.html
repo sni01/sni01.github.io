@@ -37,7 +37,7 @@
 		        	title: "hello, I am here!"
 		        });
 		        marker.setMap(map);
-		        markers.put(marker);
+		        markers.push(marker);
                 //load station information from csv file
 				stations = loadCSV();
 				for(key in stations){
@@ -51,7 +51,7 @@
 		        	        title: color+" "+name
 		                });
 		            marker.setMap(map);
-		            markers.put(marker);
+		            markers.push(marker);
 				}
 				//set click function for infowindows
 
