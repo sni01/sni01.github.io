@@ -60,7 +60,7 @@
             var request = new ActiveXObject('Microsoft.XMLHTTP');
         }
         // load
-        request.open('GET', "http://tuftsdev.github.io/WebProgramming/assignments/stations.csv", false);
+        request.open('GET', "stations.csv", false);
         request.send();
         return parseCSV(request.responseText);
     }
