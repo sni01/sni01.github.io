@@ -59,7 +59,7 @@
 		        	infoWindows[key] = new google.maps.InfoWindow();
 					infoWindows[key].setContent(markers[key].title);
 		        	google.maps.event.addListener(markers[key],'click',function(innerkey){
-		                infoWindows[innerkey].open(map, markers[inner]);
+		                infoWindows[innerkey].open(map, markers[innerkey]);
 		        	}(key));
 		        }
 		        alert(infoWindows);
