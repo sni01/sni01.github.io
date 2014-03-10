@@ -60,8 +60,8 @@
 		        for(key in markers){
 		        	google.maps.even.addListener(markers[key],'click',function(){
 		        		infoWindow.close();
-					    infowindow.setContent(marker[key].title);
-					    infowindow.open(map, marker[key]);
+					    infowindow.setContent(markers[key].title);
+					    infowindow.open(map, markers[key]);
 		        	})
 		        }
 			});
