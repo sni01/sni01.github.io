@@ -85,7 +85,7 @@
 
                 // column is array now 
                 // first item is date
-                var type = column[0];
+                var color = column[0];
                 // second item is value of the second column
                 var name = column[1];
                 // third item is value of the fird column 
@@ -93,7 +93,7 @@
                 var longitude = column[3];
 
                 // create object which contains all these items:
-                var station = {type:color, name:name, latitude: latitude, longitude:longitude};
+                var station = {color:color, name:name, latitude: latitude, longitude:longitude};
                 // add object to dataProvider array
                 stations.push(station);
             }
