@@ -57,13 +57,6 @@
 		        	        title: color+" "+name
 		                });
 		            marker.setMap(map);
-		            var infowindow = new google.maps.InfoWindow();
-				    google.maps.event.addListener(marker, 'click', function() {
-				    	infowindow.close();
-					    infowindow.setContent(marker.title);
-					    infowindow.open(map, marker);
-				    });
-
 				}
 			});
 		}
