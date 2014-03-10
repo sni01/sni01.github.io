@@ -16,6 +16,7 @@
 	var me;
 	function initialize() {
 		getMyLocation();
+		loadCSV();
 		
 	}
 	function getMyLocation()
@@ -47,6 +48,61 @@
 			alert("Geolocation is not supported by your web browser.  What a shame!");
 		}
 	}
+
+
+	function loadCSV() {
+        if (window.XMLHttpRequest) {
+            // IE7+, Firefox, Chrome, Opera, Safari
+            var request = new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            var request = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        // load
+        request.open('GET', "http://tuftsdev.github.io/WebProgramming/assignments/stations.csv", false);
+        request.send();
+        return parseCSV(request.responseText);
+    }
+
+    // method which parses csv data
+    function parseCSV(data){ 
+        //replace UNIX new lines
+        data = data.replace (/\r\n/g, "\n");
+        //replace MAC new lines
+        data = data.replace (/\r/g, "\n");
+        //split into rows
+        var rows = data.split("\n");
+        // create array which will hold our data:
+        stations = [];
+
+        // loop through all rows
+        for (var i = 0; i < rows.length; i++){
+            // this line helps to skip empty rows
+            if (rows[i]) {                    
+                // our columns are separated by comma
+                var column = rows[i].split(",");  
+
+                // column is array now 
+                // first item is date
+                var type = column[0];
+                // second item is value of the second column
+                var name = column[1];
+                // third item is value of the fird column 
+                var latitude = column[2];
+                var longitude = column[3];
+
+                // create object which contains all these items:
+                var station = {type:color, name:name, latitude: latitude, longitude:longitude};
+                // add object to dataProvider array
+                stations.push(station);
+            }
+        }
+        return stations;
+    }
+
+
+
 </script>
 
 </head>
