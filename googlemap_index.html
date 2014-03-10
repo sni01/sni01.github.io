@@ -56,6 +56,7 @@
 				//set click function for infowindows
 
 		        var infowindow = new google.maps.InfoWindow();
+		        alert(markers.size);
 		        for(key in markers){
 		        	google.maps.even.addListener(markers[key],'click',function(){
 		        		infoWindow.close();
