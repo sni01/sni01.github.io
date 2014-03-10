@@ -22,6 +22,7 @@
 	{
 		if (navigator.geolocation) { 
 			navigator.geolocation.getCurrentPosition(function(position) {
+				markers = [];
 				myLat = position.coords.latitude;
 				myLng = position.coords.longitude;
 				me = new google.maps.LatLng(myLat, myLng);
@@ -36,14 +37,7 @@
 		        	title: "hello, I am here!"
 		        });
 		        marker.setMap(map);
-		        var infowindow = new google.maps.InfoWindow();
-				google.maps.event.addListener(marker, 'click', function() {
-					infoWindow.close();
-					infowindow.setContent(marker.title);
-					infowindow.open(map, marker);
-				});
-
-
+		        markers.put(marker);
                 //load station information from csv file
 				stations = loadCSV();
 				for(key in stations){
@@ -57,7 +51,18 @@
 		        	        title: color+" "+name
 		                });
 		            marker.setMap(map);
+		            markers.put(marker);
 				}
+				//set click function for infowindows
+
+		        var infowindow = new google.maps.InfoWindow();
+		        for(key in markers){
+		        	google.maps.even.addListener(markers[key],'click',function(){
+		        		infoWindow.close();
+					    infowindow.setContent(marker[key].title);
+					    infowindow.open(map, marker[key]);
+		        	})
+		        }
 			});
 		}
 		else {
