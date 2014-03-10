@@ -16,10 +16,7 @@
 	var me;
 	var stations;
 	function initialize() {
-		getMyLocation();
-		stations = loadCSV();
-		alert(map);
-		
+		getMyLocation();	
 	}
 	function getMyLocation()
 	{
@@ -44,6 +41,28 @@
 					infowindow.setContent(marker.title);
 					infowindow.open(map, marker);
 				});
+
+
+                //load station information from csv file
+				stations = loadCSV();
+				for(key in stations){
+					var lat = stations[key].latitude;
+					var lon = stations[key].longitude;
+					var color = stations[key].color;
+					var name = stations[key].name;
+					var pos = new google.maps.LatLng(lat, lon);
+					var marker = new google.maps.Marker({
+		        	        position: pos,
+		        	        title: color+" "+name
+		                });
+		            marker.setMap(map);
+		            var infowindow = new google.maps.InfoWindow();
+				    google.maps.event.addListener(marker, 'click', function() {
+					    infowindow.setContent(marker.title);
+					    infowindow.open(map, marker);
+				    });
+
+				}
 			});
 		}
 		else {
