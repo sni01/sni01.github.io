@@ -58,8 +58,9 @@
 		        for(key in markers){
 		        	infoWindows[key] = new google.maps.InfoWindow();
 					infoWindows[key].setContent(markers[key].title);
-		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows,markers,key));
+		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
 		        }
+		        alert(infoWindows);
 			});
 		}
 		else {
@@ -68,7 +69,7 @@
 	}
 
 	function setInfoWindow(infoWindows, markers, key){
-		return function(){infoWindows[key].open(map, markers[key]);
+		return function(){infoWindows[key].open(map, markers[key]);}
 	}
 
 
