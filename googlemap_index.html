@@ -24,9 +24,9 @@
 			navigator.geolocation.getCurrentPosition(function(position) {
 				markers = [];
 				infoWindows = [];
-				markers_red = [];
-				marker_blue = [];
-				marker_orange = [];
+				pos_red = [];
+				pos_blue = [];
+				pos_orange = [];
 				myLat = position.coords.latitude;
 				myLng = position.coords.longitude;
 				me = new google.maps.LatLng(myLat, myLng);
@@ -68,13 +68,13 @@
 		            marker.setMap(map);
 		            markers.push(marker);
 		            if(stations[key].color == "Blue"){
-						marker_blue.push(marker);
+						pos_blue.push(new google.maps.LatLng(lat,lon));
 					}
 					else if(stations[key].color == "Red"){
-					    markers_red.push(marker);
+					    pos_red.push(new google.maps.LatLng(lat,lon));
 					}
 					else{
-						marker_orange.push(marker);
+						pos_orange.push(new google.maps.LatLng(lat,lon));
 					}
 				}
 				//set click function for infowindows
