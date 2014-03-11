@@ -24,6 +24,9 @@
 			navigator.geolocation.getCurrentPosition(function(position) {
 				markers = [];
 				infoWindows = [];
+				markers_red = [];
+				marker_blue = [];
+				marker_orange = [];
 				myLat = position.coords.latitude;
 				myLng = position.coords.longitude;
 				me = new google.maps.LatLng(myLat, myLng);
@@ -64,6 +67,15 @@
 		                });
 		            marker.setMap(map);
 		            markers.push(marker);
+		            if(stations[key].color == "Blue"){
+						marker_blue.push(marker);
+					}
+					else if(stations[key].color == "Red"){
+					    markers_red.push(marker);
+					}
+					else{
+						marker_orange.push(marker);
+					}
 				}
 				//set click function for infowindows
 		        for(key in markers){
@@ -71,6 +83,27 @@
 					infoWindows[key].setContent(markers[key].title);
 		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
 		        }
+		        poly_red = new google.maps.Polyline({
+                     path: markers_red,
+                     strokeColor: '#FF0000',
+                     strokeOpacity: 1.0,
+                     strokeWeight: 3
+                }); 
+                poly_orange = new google.maps.Polyline({
+                     path: markers_orange,
+                     strokeColor: '#FF4000',
+                     strokeOpacity: 1.0,
+                     strokeWeight: 3
+                });
+                poly_blue = new google.maps.Polyline({
+                     path: markers_blue,
+                     strokeColor: '#0101DF',
+                     strokeOpacity: 1.0,
+                     strokeWeight: 3
+                });
+                poly_red.setMap(map);
+                poly_orange.setMap(map);
+                poly_blue.setMap(map);
 			});
 		}
 		else {
