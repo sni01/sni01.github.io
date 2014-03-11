@@ -53,7 +53,8 @@
                 setPolyLine(pos_orange, "orange", map);
 
                 //find neareast station
-                result = findNearest(stations,myLat,myLng);                
+                result = findNearest(stations,myLat,myLng);
+                alert(result[0]);                
             });
         }
         else {
@@ -199,7 +200,6 @@
     }
 
     function sortLat(position){
-        alert(position);
         for(var i = 0; i < position.length - 1; i++){
             var tmp = i;
             for(var j = i + 1; j < position.length; j++){
@@ -211,7 +211,6 @@
             position[i] = position[tmp];
             position[tmp] = change;
         }
-        alert(position);
         return position;
     }
 
