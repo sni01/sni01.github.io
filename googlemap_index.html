@@ -18,7 +18,6 @@
     {
         if (navigator.geolocation) { 
             navigator.geolocation.getCurrentPosition(function(position) {
-                alert("test");
                 var myLat = position.coords.latitude;
                 var myLng = position.coords.longitude;
                 var me = new google.maps.LatLng(myLat, myLng);
@@ -54,9 +53,7 @@
                 setPolyLine(pos_orange, "orange", map);
 
                 //find neareast station
-                result = findNearest(stations,myLat,myLng);
-                alert("test");
-                
+                result = findNearest(stations,myLat,myLng);                
             });
         }
         else {
@@ -219,7 +216,6 @@
     }
 
     function findNearest(stations,myLat,myLng){
-        alert("test");
         var nearest;
         var distance = 6371;
         for(key in stations){
@@ -233,7 +229,6 @@
                 nearest = stations[key];
             }
         }
-        alert("test");
         return [nearest,d];
     }
 
