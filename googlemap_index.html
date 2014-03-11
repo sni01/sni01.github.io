@@ -37,7 +37,6 @@
                     title: "hello, I am here!"
                 });
                 marker.setMap(map);
-                markers.push(marker);
 
 
                 //load station information from csv file
@@ -46,6 +45,7 @@
                 //set markers on maps
                 var result = setMarkers(stations, map);
                 var markers = result[0];
+                markers.push(marker);//push myself marker to the markers array
                 var infoWindows = result[1];
                 var pos_red = result[2];
                 var pos_blue = result[3];
