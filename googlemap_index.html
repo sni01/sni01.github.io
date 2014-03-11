@@ -30,6 +30,7 @@
 				myLat = position.coords.latitude;
 				myLng = position.coords.longitude;
 				me = new google.maps.LatLng(myLat, myLng);
+
 		        myOptions = {
 		              zoom:13,
 					  center:me,
@@ -113,6 +114,22 @@
                 //poly_red.setMap(map);
                 poly_orange.setMap(map);
                 //poly_blue.setMap(map);
+
+                //find neareast station
+                var nearest;
+                var distance = 6371;
+                for(key in stations){
+                	var dLat = (stations[key].latitude-myLat).toRad();  
+                    var dLon = (stations[key].longitude-myLng).toRad();  
+                    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(stations[key].latitude.toRad()) * Math.cos(myLat.toRad()) * Math.sin(dLon/2) * Math.sin(dLon/2);  
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                    var d = 6371 * c;
+                    if(distance > d){
+                    	distance = d;
+                    	nearest = stations[key];
+                    }
+                }
+                alert(stations[key]+" "+distance);
 			});
 		}
 		else {
