@@ -125,7 +125,7 @@
 		for(var i = 0; i < position.length - 1; i++){
 			var tmp = i;
 			for(var j = i + 1; j < position.length; j++){
-				if(position[i].latitude < position[j].latitude){
+				if(position[i].lat() < position[j].lat()){
 					tmp = j;
 				}
 			}
