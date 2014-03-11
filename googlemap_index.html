@@ -54,6 +54,7 @@
 
                 //find neareast station
                 result = findNearest(stations,myLat,myLng);
+                alert(result[1]);
                 alert(result[0].name + " station ; distance: " + result[1] * 0.621371192 + " miles");                
             });
         }
