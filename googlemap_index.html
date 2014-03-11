@@ -89,6 +89,9 @@
 					infoWindows[key].setContent(markers[key].title);
 		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
 		        }
+		        pos_red = sortLat(pos_red);
+		        pos_blue = sortLat(pos_blue);
+		        pos_orange = sortLat(pos_orange);
 		        var poly_red = new google.maps.Polyline({
                      path: pos_red,
                      strokeColor: '#FF0000',
@@ -115,6 +118,21 @@
 		else {
 			alert("Geolocation is not supported by your web browser.  What a shame!");
 		}
+	}
+
+	function sortLat(position){
+		for(var i = 0; i < position.length - 1; i++){
+			var tmp = i;
+			for(var j = i + 1; j < position.length; j++){
+				if(position[i].latitude < position[j].latitude){
+					tmp = j;
+				}
+			}
+			var change = position[i];
+			position[i] = position[tmp];
+			position[tmp] = change;
+		}
+		return position;
 	}
 
 	function setInfoWindow(infoWindows, markers, key){
