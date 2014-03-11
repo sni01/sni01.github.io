@@ -12,159 +12,72 @@
 <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script>
     var myLat = 0;
-	var myLng = 0;
-	var me;
-	var stations;
-	function initialize() {
-		getMyLocation();	
-	}
-	function getMyLocation()
-	{
-		if (navigator.geolocation) { 
-			navigator.geolocation.getCurrentPosition(function(position) {
-				markers = [];
-				infoWindows = [];
-				pos_red = [];
-				pos_blue = [];
-				pos_orange = [];
-				myLat = position.coords.latitude;
-				myLng = position.coords.longitude;
-				me = new google.maps.LatLng(myLat, myLng);
+    var myLng = 0;
+    var me;
+    var stations;
+    function initialize() {
+        getMyLocation();    
+    }
+    function getMyLocation()
+    {
+        if (navigator.geolocation) { 
+            navigator.geolocation.getCurrentPosition(function(position) {
+                myLat = position.coords.latitude;
+                myLng = position.coords.longitude;
+                me = new google.maps.LatLng(myLat, myLng);
+                //set myself position
+                myOptions = {
+                      zoom:13,
+                      center:me,
+                      mapTypeId:google.maps.MapTypeId.ROADMAP
+                };
+                map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                var marker = new google.maps.Marker({
+                    position: me,
+                    title: "hello, I am here!"
+                });
+                marker.setMap(map);
+                markers.push(marker);
 
-		        myOptions = {
-		              zoom:13,
-					  center:me,
-					  mapTypeId:google.maps.MapTypeId.ROADMAP
-				};
-		        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-		        var marker = new google.maps.Marker({
-		        	position: me,
-		        	title: "hello, I am here!"
-		        });
-		        marker.setMap(map);
-		        markers.push(marker);
+
                 //load station information from csv file
-				stations = loadCSV();
-				var red = 0;
-				var blue = 0;
-				var orange = 0;
-				for(var key = 0; key < stations.length; key++){
-					var icon;
-					if(stations[key].color == "Blue"){
-						icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png';
-					}
-					else if(stations[key].color == "Red"){
-						icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png';
-					}
-					else{
-						icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/orange-dot.png';
-					}
-					var lat = stations[key].latitude;
-					var lon = stations[key].longitude;
-					var color = stations[key].color;
-					var name = stations[key].name;
-					var pos = new google.maps.LatLng(lat, lon);
-					var marker = new google.maps.Marker({
-		        	        position: pos,
-		        	        title: color+" "+name,
-		        	        icon: icon
-		                });
-		            marker.setMap(map);
-		            markers.push(marker);
-		            if(stations[key].color == "Blue"){
-						pos_blue[blue] = new google.maps.LatLng(lat,lon);
-						blue++;
-					}
-					else if(stations[key].color == "Red"){
-					    pos_red[red] = new google.maps.LatLng(lat,lon);
-					    red++;
-					}
-					else{
-						pos_orange[orange] = new google.maps.LatLng(lat,lon);
-					    orange++;
-					}
-				}
-				//set click function for infowindows
-		        for(key in markers){
-		        	infoWindows[key] = new google.maps.InfoWindow();
-					infoWindows[key].setContent(markers[key].title);
-		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
-		        }
-		        //pos_red = sortLat(pos_red);
-		        //pos_blue = sortLat(pos_blue);
-		        pos_orange = sortLat(pos_orange);
-		        var poly_red = new google.maps.Polyline({
-                     path: pos_red,
-                     strokeColor: '#FF0000',
-                     strokeOpacity: 1.0,
-                     strokeWeight: 3
-                }); 
-                var poly_orange = new google.maps.Polyline({
-                     path: pos_orange,
-                     strokeColor: '#FF4000',
-                     strokeOpacity: 1.0,
-                     strokeWeight: 3
-                });
-                var poly_blue = new google.maps.Polyline({
-                     path: pos_blue,
-                     strokeColor: '#0101DF',
-                     strokeOpacity: 1.0,
-                     strokeWeight: 3
-                });
-                //poly_red.setMap(map);
-                poly_orange.setMap(map);
-                //poly_blue.setMap(map);
+                stations = loadCSV();
+
+                //set markers on maps
+                var result = setMarkers(stations, map);
+                var markers = result[0];
+                var infoWindows = result[1];
+                var pos_red = result[2];
+                var pos_blue = result[3];
+                var pos_orange = result[4];
+
+                //set polyline on map
+                setPolyLine(pos_red, "red", map);
+                setPolyLine(pos_blue, "blue", map);
+                setPolyLine(pos_orange, "orange", map);
 
                 //find neareast station
-                var nearest;
-                var distance = 6371;
-                for(key in stations){
-                	var dLat = (stations[key].latitude-myLat) * Math.PI / 180;  
-                    var dLon = (stations[key].longitude-myLng) * Math.PI / 180;  
-                    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(stations[key].latitude* Math.PI / 180) * Math.cos(myLat* Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);  
-                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-                    var d = 6371 * c;
-                    if(distance > d){
-                    	distance = d;
-                    	nearest = stations[key];
-                    }
-                }
-                alert(stations[key]+" "+distance);
-			});
-		}
-		else {
-			alert("Geolocation is not supported by your web browser.  What a shame!");
-		}
-	}
+                result = findNearest(stations,myLat,myLng);
+                
+            });
+        }
+        else {
+            alert("Geolocation is not supported by your web browser.  What a shame!");
+        }
+    }
 
-	function sortLat(position){
-		alert(position);
-		for(var i = 0; i < position.length - 1; i++){
-			var tmp = i;
-			for(var j = i + 1; j < position.length; j++){
-				if(position[i].lat() < position[j].lat()){
-					tmp = j;
-				}
-			}
-			var change = position[i];
-			position[i] = position[tmp];
-			position[tmp] = change;
-		}
-		alert(position);
-		return position;
-	}
-
-	function setInfoWindow(infoWindows, markers, key){
-		return function(){
-			for(k in infoWindows){
-				infoWindows[k].close();
-			}
-			infoWindows[key].open(map, markers[key]);
-		}
-	}
+    
+    function setInfoWindow(infoWindows, markers, key){
+        return function(){
+            for(k in infoWindows){
+                infoWindows[k].close();
+            }
+            infoWindows[key].open(map, markers[key]);
+        }
+    }
 
 
-	function loadCSV() {
+    function loadCSV() {
         if (window.XMLHttpRequest) {
             // IE7+, Firefox, Chrome, Opera, Safari
             var request = new XMLHttpRequest();
@@ -215,12 +128,121 @@
         return stations;
     }
 
+    function setMarkers(stations, map){
+                var markers = [];
+                var infoWindows = [];
+                var pos_red = [];
+                var pos_blue = [];
+                var pos_orange = [];
+                var red = 0;
+                var blue = 0;
+                var orange = 0;
+                for(var key = 0; key < stations.length; key++){
+                    var icon;
+                    if(stations[key].color == "Blue"){
+                        icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png';
+                    }
+                    else if(stations[key].color == "Red"){
+                        icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png';
+                    }
+                    else{
+                        icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/orange-dot.png';
+                    }
+                    var lat = stations[key].latitude;
+                    var lon = stations[key].longitude;
+                    var color = stations[key].color;
+                    var name = stations[key].name;
+                    var pos = new google.maps.LatLng(lat, lon);
+                    var marker = new google.maps.Marker({
+                            position: pos,
+                            title: color+" "+name,
+                            icon: icon
+                        });
+                    marker.setMap(map);
+                    markers.push(marker);
+                    if(stations[key].color == "Blue"){
+                        pos_blue[blue] = new google.maps.LatLng(lat,lon);
+                        blue++;
+                    }
+                    else if(stations[key].color == "Red"){
+                        pos_red[red] = new google.maps.LatLng(lat,lon);
+                        red++;
+                    }
+                    else{
+                        pos_orange[orange] = new google.maps.LatLng(lat,lon);
+                        orange++;
+                    }
+                }
+                //set click function for infowindows
+                for(key in markers){
+                    infoWindows[key] = new google.maps.InfoWindow();
+                    infoWindows[key].setContent(markers[key].title);
+                    google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
+                }
+                return [markers, infoWindows,pos_red,pos_blue,pos_orange];
+    }
+
+    function setPolyLine(pos,color,map){
+        if(color == "red"){
+            color = "#FF0000";
+        }
+        else if(color == "blue"){
+            color = "#0101DF";
+        }
+        else{
+            color = "#FF4000";
+        }
+
+        pos = sortLat(sort);
+        var poly = new google.maps.Polyline({
+           path: pos,
+           strokeColor: color,
+           strokeOpacity: 1.0,
+           strokeWeight: 3
+        }); 
+        poly.setMap(map);
+    }
+
+    function sortLat(position){
+        alert(position);
+        for(var i = 0; i < position.length - 1; i++){
+            var tmp = i;
+            for(var j = i + 1; j < position.length; j++){
+                if(position[i].lat() < position[j].lat()){
+                    tmp = j;
+                }
+            }
+            var change = position[i];
+            position[i] = position[tmp];
+            position[tmp] = change;
+        }
+        alert(position);
+        return position;
+    }
+
+    function findNearest(stations,myLat,myLng){
+        var nearest;
+        var distance = 6371;
+        for(key in stations){
+            var dLat = (stations[key].latitude-myLat) * Math.PI / 180;  
+            var dLon = (stations[key].longitude-myLng) * Math.PI / 180;  
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(stations[key].latitude* Math.PI / 180) * Math.cos(myLat* Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);  
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = 6371 * c;
+            if(distance > d){
+                distance = d;
+                nearest = stations[key];
+            }
+        }
+        return [nearest,d];
+    }
+
 
 
 </script>
 
 </head>
 <body onload="initialize()">
-	<div id="map_canvas" style="width:100%; height:100%"></div>
+    <div id="map_canvas" style="width:100%; height:100%"></div>
 </body>
 </html>
