@@ -89,8 +89,8 @@
 					infoWindows[key].setContent(markers[key].title);
 		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
 		        }
-		        pos_red = sortLat(pos_red);
-		        pos_blue = sortLat(pos_blue);
+		        //pos_red = sortLat(pos_red);
+		        //pos_blue = sortLat(pos_blue);
 		        pos_orange = sortLat(pos_orange);
 		        var poly_red = new google.maps.Polyline({
                      path: pos_red,
