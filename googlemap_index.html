@@ -44,7 +44,10 @@
 		        markers.push(marker);
                 //load station information from csv file
 				stations = loadCSV();
-				for(key in stations){
+				int red = 0;
+				int blue = 0;
+				int orange = 0;
+				for(int key = 0; key < stations.size(); key++){
 					var icon;
 					if(stations[key].color == "Blue"){
 						icon = 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png';
@@ -68,13 +71,16 @@
 		            marker.setMap(map);
 		            markers.push(marker);
 		            if(stations[key].color == "Blue"){
-						pos_blue.push(new google.maps.LatLng(lat,lon));
+						pos_blue[blue] = new google.maps.LatLng(lat,lon);
+						blue++;
 					}
 					else if(stations[key].color == "Red"){
-					    pos_red.push(new google.maps.LatLng(lat,lon));
+					    pos_red[red] = new google.maps.LatLng(lat,lon);
+					    red++;
 					}
 					else{
-						pos_orange.push(new google.maps.LatLng(lat,lon));
+						pos_orange[orange] = new google.maps.LatLng(lat,lon);
+					    orange++;
 					}
 				}
 				//set click function for infowindows
