@@ -121,7 +121,7 @@
                 for(key in stations){
                 	var dLat = (stations[key].latitude-myLat) * Math.PI / 180;  
                     var dLon = (stations[key].longitude-myLng) * Math.PI / 180;  
-                    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(stations[key].latitude.toRad()) * Math.cos(myLat.toRad()) * Math.sin(dLon/2) * Math.sin(dLon/2);  
+                    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(stations[key].latitude* Math.PI / 180) * Math.cos(myLat* Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);  
                     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
                     var d = 6371 * c;
                     if(distance > d){
