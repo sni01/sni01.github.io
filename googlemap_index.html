@@ -84,19 +84,19 @@
 		        	google.maps.event.addListener(markers[key],'click',setInfoWindow(infoWindows, markers, key));
 		        }
 		        var poly_red = new google.maps.Polyline({
-                     path: markers_red,
+                     path: pos_red,
                      strokeColor: '#FF0000',
                      strokeOpacity: 1.0,
                      strokeWeight: 3
                 }); 
                 var poly_orange = new google.maps.Polyline({
-                     path: markers_orange,
+                     path: pos_orange,
                      strokeColor: '#FF4000',
                      strokeOpacity: 1.0,
                      strokeWeight: 3
                 });
                 var poly_blue = new google.maps.Polyline({
-                     path: markers_blue,
+                     path: pos_blue,
                      strokeColor: '#0101DF',
                      strokeOpacity: 1.0,
                      strokeWeight: 3
